@@ -8,54 +8,44 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  List,
 } from "react-native";
 
-//const url = 'https://raw.githubusercontent.com/mattpe/wpma/master/assets/test.json'
+const url = "http://media.mw.metropolia.fi/wbma/";
 
 const List = () => {
   const [mediaArray, setMediaArray] = useState([]);
-};
 
-const loadMedia = async (limit = 10) => {
-  try {
-    const response = await fetch(url + "media?limit=" + limit);
-    const json = await response.json(
-      json.map(async (item) => {
-        const response = await fetch(url + "media/" + item.file_id);
+  useEffect(() => {
+    const loadMedia = async (limit = 10) => {
+      try {
+        const response = await fetch(url + "media?limit=" + limit);
         const json = await response.json();
-        return json;
-      })
-    );
-    const media = await Promise.all();
-  } catch (error) {
-    console.error("loadMedia error", error);
-  }
-  console.log("mediaArray:", mediaArray);
+        const media = await Promise.all(
+          json.map(async (item) => {
+            const response = await fetch(url + "media/" + item.file_id);
+            const json = await response.json();
+            return json;
+          })
+        );
+        console.log("loadMedia", media);
+      } catch (error) {
+        console.error("loadMedia error", error);
+      }
+      console.log("mediaArray:", mediaArray);
+    };
+
+    loadMedia();
+  }, []);
+
+  return (
+    <FlatList
+      data={mediaArray}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => {
+        <ListItem singleMedia={item} />;
+      }}
+    />
+  );
 };
-
-useEffect(() => {
-  loadMedia(5);
-}, []);
-
-return (
-  <FlatList
-    data={mediaArray}
-    keyExtractor={(item, index) => index.toString()}
-    renderItem={({ item }) => {
-      <ListItem singleMedia={item} />;
-    }}
-  />
-);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default List;
-export default loadMedia;

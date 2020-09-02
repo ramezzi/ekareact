@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   List,
 } from "react-native";
+import Navigator from "./navigators/Navigator";
 
 const mediaArray = [
   {
@@ -45,12 +46,7 @@ const mediaArray = [
 ];
 
 const App = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <List />
-      <StatusBar style="auto" />
-    </SafeAreaView>
-  );
+  return <Navigator />;
 };
 
 const styles = StyleSheet.create({
