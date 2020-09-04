@@ -12,7 +12,7 @@ import {
 import List from "../components/List";
 import PropTypes from "prop-types";
 
-const Home = ({ navigation }) => {
+const LoginForm = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <List navigation={navigation} />
@@ -34,4 +34,4 @@ Home.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default Home;
+export default LoginForm;
